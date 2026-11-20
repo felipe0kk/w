@@ -4,38 +4,32 @@ name: Build Windows EXE
   workflow_dispatch:
   push:
     branches:
-      
-main
+      - main
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      
-name: Descargar codigo
-      uses: actions/checkout@v4
+      - name: Descargar codigo
+        uses: actions/checkout@v4
 
-      
-name: Instalar Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-      
-name: Instalar dependencias
-      run: |
-        python -m pip install -r requirements.txt
-        python -m pip install pyinstaller
+      - name: Instalar dependencias
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller
 
-      
-name: Compilar EXE
-      run: |
-        python -m PyInstaller --noconfirm --clean --onefile --windowed --name SteamKeyHunter --add-data "templates;templates" --add-data "static;static" app.py
+      - name: Compilar EXE
+        run: |
+          python -m PyInstaller --noconfirm --clean --onefile --windowed --name SteamKeyHunter --add-data "templates;templates" --add-data "static;static" app.py
 
-      
-name: Guardar ejecutable
-      uses: actions/upload-artifact@v4
-      with:
-        name: SteamKeyHunter-Windows
-        path: dist/SteamKeyHunter.exe
+      - name: Guardar ejecutable
+        uses: actions/upload-artifact@v4
+        with:
+          name: SteamKeyHunter-Windows
+          path: dist/SteamKeyHunter.exe
